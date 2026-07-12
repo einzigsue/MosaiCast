@@ -1,0 +1,6 @@
+# A6 control — randomized δt from {6,12,24}h (CLAUDE.md §6, ablation A6).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+# δt is fixed within a rollout (§8.1 invariant), randomized across training examples.
+data:
+  init_args:
+    dt_hours: [6, 12, 24]

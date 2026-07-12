@@ -1,0 +1,5 @@
+# A8 ablation — latent_levels=5 (CLAUDE.md §6, ablation A8).
+# Pair with _base_ablation.yaml.
+model:
+  init_args:
+    latent_levels: 5

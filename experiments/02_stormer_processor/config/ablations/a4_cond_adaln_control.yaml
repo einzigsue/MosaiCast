@@ -1,0 +1,7 @@
+# A4 control — adaLN-zero δt conditioning, QK-norm on, no rollout-step cond (CLAUDE.md §6, A4).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+model:
+  init_args:
+    dt_cond:                   adaln_zero
+    qk_norm:                   true
+    condition_on_rollout_step: false

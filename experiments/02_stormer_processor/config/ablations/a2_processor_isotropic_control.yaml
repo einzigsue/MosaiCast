@@ -1,0 +1,5 @@
+# A2 control — isotropic StormerProcessor (CLAUDE.md §6, ablation A2).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+model:
+  init_args:
+    processor_type: isotropic

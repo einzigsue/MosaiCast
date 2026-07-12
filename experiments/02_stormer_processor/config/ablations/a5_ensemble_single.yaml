@@ -1,0 +1,7 @@
+# A5 ablation — single-member inference (CLAUDE.md §6, ablation A5).
+# Pair with _base_ablation.yaml.
+# Training is identical to control; this selects single-member mode at eval time.
+# See scripts/run_ablation_eval.py --ensemble_mode single.
+#
+# Report averaged-ensemble and single-member numbers side by side (CLAUDE.md §7).
+# The central question: how much extreme/spectral fidelity is lost to averaging?

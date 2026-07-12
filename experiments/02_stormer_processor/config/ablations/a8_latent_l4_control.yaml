@@ -1,0 +1,6 @@
+# A8 control — latent_levels=4, stabilise_level_agg=False (CLAUDE.md §6, ablation A8).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+model:
+  init_args:
+    latent_levels:       4
+    stabilise_level_agg: false

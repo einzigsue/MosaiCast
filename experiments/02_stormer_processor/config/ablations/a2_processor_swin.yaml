@@ -1,0 +1,7 @@
+# A2 ablation — Swin3DTransformerBackbone (Aurora original processor) (CLAUDE.md §6, ablation A2).
+# Pair with _base_ablation.yaml.
+# DEVIATION: Swin emits 2*embed_dim (skip concat); thin Linear(2D→D) projects back (CLAUDE §1.3).
+# This is ablation-only — do not ship.  Restores Aurora's multiscale windowed attention.
+model:
+  init_args:
+    processor_type: swin

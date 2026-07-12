@@ -1,0 +1,7 @@
+# A8 ablation — stabilise_level_agg=True (ln_k_q in Aurora Perceiver level aggregation).
+# Pair with _base_ablation.yaml.
+# Adds LayerNorm to keys and queries in the level-aggregation Perceiver cross-attention.
+# Expected: more stable training at fp16/bf16 with deep or wide latent dimensions.
+model:
+  init_args:
+    stabilise_level_agg: true

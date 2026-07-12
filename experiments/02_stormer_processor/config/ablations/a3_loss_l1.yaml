@@ -1,0 +1,6 @@
+# A3 ablation — L1 loss (CLAUDE.md §6, ablation A3).
+# Pair with _base_ablation.yaml.
+# L1 expected to be better for skewed / finetuned variables (pollution, waves).
+model:
+  init_args:
+    loss_norm: l1

@@ -1,0 +1,13 @@
+# A6 ablation — randomize δt within each rollout (DEVIATION / destabiliser).
+# Pair with configs/finetune_rollout.yaml (NOT _base_ablation.yaml — needs rollout module).
+#
+# DEVIATION: violates CLAUDE.md §8.1 (δt fixed across rollout steps).
+# Expected to destabilise training.  Purpose: document the instability, do NOT ship.
+#
+# Usage:
+#   python -m mosaicast.train fit \
+#       --config configs/finetune_rollout.yaml \
+#       --config configs/ablations/a6_dt_within_rollout.yaml
+model:
+  init_args:
+    randomize_dt_within_rollout: true

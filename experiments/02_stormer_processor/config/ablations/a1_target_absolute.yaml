@@ -1,0 +1,9 @@
+# A1 ablation — absolute-state target (CLAUDE.md §6, ablation A1).
+# Pair with _base_ablation.yaml.
+# Hypothesis: dynamics wins, especially at short lead times.
+# Also requires stats estimated with --mode absolute:
+#   python scripts/estimate_residual_stats.py ... --mode absolute --out_path data/absolute_stats.npz
+model:
+  init_args:
+    target_mode: absolute
+    stats_path:  data/absolute_stats.npz

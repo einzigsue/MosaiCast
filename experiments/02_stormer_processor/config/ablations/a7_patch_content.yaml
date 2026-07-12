@@ -1,0 +1,11 @@
+# A7 ablation — content-adaptive patch plan (CLAUDE.md §6, ablation A7).
+# Pair with _base_ablation.yaml.
+# Greedy quadtree: refines where Z500 roughness is high (fronts, cyclones).
+# Token count is bounded by `budget`; transformer cost is content-bounded.
+# Must be paired with uniform plan for the same patch_size for a fair comparison.
+data:
+  init_args:
+    plan_type:      content_adaptive
+    budget:         512
+    criterion_var:  z
+    criterion_level: 500

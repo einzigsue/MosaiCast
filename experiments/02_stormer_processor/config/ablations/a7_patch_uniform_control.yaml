@@ -1,0 +1,7 @@
+# A7 control — uniform patch plan, canonical p=4 (CLAUDE.md §6, ablation A7).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+# Reproduces fixed-patch Aurora — the control for adaptive-patching ablations.
+data:
+  init_args:
+    plan_type: uniform
+    canonical: null   # inherits patch_size=4

@@ -1,0 +1,63 @@
+# M4 rollout finetuning — fixed-δt K-step pushforward (CLAUDE.md §5)
+#
+# Curriculum: start with rollout_k=1 (same as M3 pretraining), then
+# re-run with rollout_k=4 and finally rollout_k=8.
+#
+# Usage:
+#   conda run -n mosaicast python -m mosaicast.train fit \
+#       --config configs/finetune_rollout.yaml \
+#       --model.init_args.rollout_k 4 \
+#       --data.init_args.rollout_k 4
+#
+# Note: Trainer uses use_distributed_sampler=false — DtBatchSampler handles
+# per-rank shuffling for DDP (CLAUDE.md §5, M4 DDP note).
+
+model:
+  class_path: mosaicast.train.MosaicastRolloutModule
+  init_args:
+    surf_vars:          ["2t", "10u", "10v", "msl"]
+    static_vars:        ["lsm", "z", "slt"]
+    atmos_vars:         ["z", "u", "v", "t", "q"]
+    patch_size:         4
+    latent_levels:      4
+    embed_dim:          256
+    encoder_depth:      4
+    processor_depth:    8
+    processor_heads:    8
+    processor_head_dim: 64
+    mlp_ratio:          4.0
+    max_history_size:   2
+    stats_path:         null      # set to data/residual_stats.npz after M3 stats run
+    lr:                 1e-4      # lower LR for finetuning
+    weight_decay:       0.1
+    rollout_k:          1         # curriculum: 1 → 4 → 8
+    replay_buf_size:    256
+    replay_prob:        0.5
+
+data:
+  class_path: mosaicast.train.MosaicastRolloutDataModule
+  init_args:
+    root:               ${oc.env:MOSAICAST_DATA_DIR,data}
+    nc_filename:        "aurora_{year}_5.625deg.nc"
+    static_nc:          "aurora_const_5.625deg.nc"
+    surf_vars:          ["2t", "10u", "10v", "msl"]
+    atmos_vars:         ["z", "u", "v", "t", "q"]
+    atmos_levels:       [50, 250, 500, 600, 700, 850, 925]
+    static_vars:        ["lsm", "z", "slt"]
+    base_dt_hours:      [6, 12, 24]   # per-step δt; total = rollout_k * base_dt
+    rollout_k:          1             # must match model.rollout_k
+    train_year_start:   1991
+    train_year_end:     1992
+    val_year_start:     1993
+    val_year_end:       1993
+    test_year_start:    1994
+    test_year_end:      1994
+    batch_size:         4
+    num_workers:        2
+
+trainer:
+  max_epochs:              50
+  precision:               bf16-mixed
+  gradient_clip_val:       1.0
+  log_every_n_steps:       50
+  use_distributed_sampler: false   # DtBatchSampler manages its own distribution

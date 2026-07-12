@@ -1,0 +1,5 @@
+# A7: uniform vs content-adaptive patching; canonical p sweep
+patching:
+  plan: uniform          # options: uniform | lat_band | content_adaptive
+  canonical: 4           # p — sweep: [2, 4, 8]
+  budget: 512            # max number of patches (token budget knob)

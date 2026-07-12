@@ -1,0 +1,3 @@
+# A3: L2 vs L1 vs hybrid loss; pressure weighting on/off
+loss_norm: hybrid       # options: l1 | l2 | hybrid
+pressure_weighted: true

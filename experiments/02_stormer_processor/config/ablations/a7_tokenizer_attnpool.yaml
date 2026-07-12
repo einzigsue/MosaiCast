@@ -1,0 +1,7 @@
+# A7 ablation — AttentionPool tokenizer (Perceiver cross-attention) vs bilinear resize (CLAUDE.md §6, A7).
+# Pair with _base_ablation.yaml.
+# Cross-attends a single learned latent over all crop cells per patch.
+# Expected: richer spatial aggregation at the cost of extra parameters + compute.
+model:
+  init_args:
+    tokenizer: attention_pool

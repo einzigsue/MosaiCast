@@ -1,0 +1,2 @@
+# A2: isotropic vs hybrid vs original Swin U-Net processor
+processor_type: isotropic  # options: isotropic | hybrid | swin

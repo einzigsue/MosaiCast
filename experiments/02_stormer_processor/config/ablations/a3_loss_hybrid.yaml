@@ -1,0 +1,11 @@
+# A3 ablation — hybrid L1/L2 loss (CLAUDE.md §6, ablation A3).
+# Pair with _base_ablation.yaml.
+# L2 for standard met variables; L1 for skewed vars (set in loss_norms per-var).
+# Example: L1 for precipitation proxy; L2 for T, Z, U, V, Q.
+model:
+  init_args:
+    loss_norm: hybrid
+    # Override per-variable norms here; default is l2 if a var is not listed.
+    # loss_norms:
+    #   tp: l1
+    #   u10: l2

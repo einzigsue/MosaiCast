@@ -1,0 +1,81 @@
+# Base ablation config — all knobs at control values (CLAUDE.md §6).
+# Usage:
+#   python -m mosaicast.train fit \
+#       --config configs/ablations/_base_ablation.yaml \
+#       --config configs/ablations/<ablation>.yaml
+#
+# Every ablation YAML overrides ONLY the knob(s) it tests.
+# All control defaults here must match MosaicastLightningModule.__init__ defaults.
+
+model:
+  class_path: mosaicast.train.MosaicastLightningModule
+  init_args:
+    surf_vars:                 ["2t", "10u", "10v", "msl"]
+    static_vars:               ["lsm", "z", "slt"]
+    atmos_vars:                ["z", "u", "v", "t", "q"]
+    patch_size:                4
+    latent_levels:             4
+    embed_dim:                 256
+    encoder_depth:             4
+    processor_depth:           8
+    processor_heads:           8
+    processor_head_dim:        64
+    mlp_ratio:                 4.0
+    max_history_size:          2
+    stats_path:                null   # set via --model.init_args.stats_path path/to/stats.npz
+    lr:                        3e-4
+    weight_decay:              0.1
+    loss_norms:                null
+    # Ablation knobs — control values
+    target_mode:               dynamics    # A1 control
+    processor_type:            isotropic   # A2 control
+    dt_cond:                   adaln_zero  # A4 control
+    qk_norm:                   true        # A4 control
+    condition_on_rollout_step: false       # A4 control
+    stabilise_level_agg:       false       # A8 control
+    tokenizer:                 resize      # A7 control
+    loss_norm:                 l2          # A3 control
+    pressure_weighted:         false       # A3 control
+
+data:
+  class_path: mosaicast.train.MosaicastDataModule
+  init_args:
+    root:               ${oc.env:MOSAICAST_DATA_DIR,data}
+    nc_filename:        "aurora_{year}_5.625deg.nc"
+    static_nc:          "aurora_const_5.625deg.nc"
+    surf_vars:          ["2t", "10u", "10v", "msl"]
+    atmos_vars:         ["z", "u", "v", "t", "q"]
+    atmos_levels:       [50, 250, 500, 600, 700, 850, 925]
+    static_vars:        ["lsm", "z", "slt"]
+    dt_hours:           [6, 12, 24]
+    train_year_start:   1979
+    train_year_end:     2018
+    val_year_start:     2019
+    val_year_end:       2019
+    test_year_start:    2020
+    test_year_end:      2020
+    batch_size:         4
+    num_workers:        2
+    # A7 data knobs — control values
+    plan_type:          uniform
+    canonical:          null   # inherits patch_size=4
+    budget:             512
+    criterion_var:      z
+    criterion_level:    500
+
+trainer:
+  max_epochs:              100
+  precision:               bf16-mixed
+  gradient_clip_val:       1.0
+  log_every_n_steps:       50
+  use_distributed_sampler: false
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        monitor:   val/loss
+        mode:      min
+        save_top_k: 3
+        filename:   "{epoch:03d}-{val_loss:.4f}"
+    - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+      init_args:
+        logging_interval: step

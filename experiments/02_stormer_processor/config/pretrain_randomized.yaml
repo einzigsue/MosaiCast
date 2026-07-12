@@ -1,0 +1,50 @@
+# Pretrain with randomized δt (M3)
+# Usage: conda run -n mosaicast python -m mosaicast.train fit \
+#            --config configs/pretrain_randomized.yaml
+
+model:
+  class_path: mosaicast.train.MosaicastLightningModule
+  init_args:
+    surf_vars:                 ["2t", "10u", "10v", "msl"]
+    static_vars:               ["lsm", "z", "slt"]
+    atmos_vars:                ["z", "u", "v", "t", "q"]
+    patch_size:                4
+    latent_levels:             4
+    embed_dim:                 256
+    encoder_depth:             4
+    processor_depth:           8
+    processor_heads:           8
+    processor_head_dim:        64
+    mlp_ratio:                 4.0
+    max_history_size:          2
+    stats_path:                null    # set to data/residual_stats.npz after offline stats run
+    lr:                        3e-4
+    weight_decay:              0.1
+    condition_on_rollout_step: false   # δt-only conditioning (CLAUDE.md §1.4)
+
+data:
+  class_path: mosaicast.train.MosaicastDataModule
+  init_args:
+    root:               ${oc.env:MOSAICAST_DATA_DIR,data}
+    nc_filename:        "aurora_{year}_5.625deg.nc"
+    static_nc:          "aurora_const_5.625deg.nc"
+    surf_vars:          ["2t", "10u", "10v", "msl"]
+    atmos_vars:         ["z", "u", "v", "t", "q"]
+    atmos_levels:       [50, 250, 500, 600, 700, 850, 925]
+    static_vars:        ["lsm", "z", "slt"]
+    dt_hours:           [6, 12, 24]    # randomized δt support (CLAUDE.md §1.6)
+    train_year_start:   1979
+    train_year_end:     2018
+    val_year_start:     2019
+    val_year_end:       2019
+    test_year_start:    2020
+    test_year_end:      2020
+    batch_size:         4
+    num_workers:        2
+
+trainer:
+  max_epochs:              100
+  precision:               bf16-mixed
+  gradient_clip_val:       1.0
+  log_every_n_steps:       50
+  use_distributed_sampler: false

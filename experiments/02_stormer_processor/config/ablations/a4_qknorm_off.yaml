@@ -1,0 +1,7 @@
+# A4 ablation — QK-norm off (CLAUDE.md §6, A4).
+# Pair with _base_ablation.yaml.
+# Expected to cause instability in bf16 for long sequences.
+# Documents that QK-norm is load-bearing for bf16 stability.
+model:
+  init_args:
+    qk_norm: false

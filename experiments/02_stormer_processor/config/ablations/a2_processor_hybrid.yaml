@@ -1,0 +1,7 @@
+# A2 ablation — HybridProcessor with 1 merge/split stage (CLAUDE.md §6, ablation A2).
+# Pair with _base_ablation.yaml.
+# DEVIATION: HybridProcessor is ablation-only (CLAUDE §1.1). Only valid with uniform plan.
+# Hypothesis: check whether removing multiscale prior costs synoptic-scale skill.
+model:
+  init_args:
+    processor_type: hybrid

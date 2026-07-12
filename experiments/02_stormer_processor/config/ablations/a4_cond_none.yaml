@@ -1,0 +1,7 @@
+# A4 ablation — no δt conditioning (CLAUDE.md §6, A4).
+# Pair with _base_ablation.yaml.
+# Processor is plain pre-norm blocks with no δt information.
+# Expected to degrade skill across all lead times — validates conditioning is doing work.
+model:
+  init_args:
+    dt_cond: none

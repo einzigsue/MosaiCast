@@ -1,0 +1,6 @@
+# A4 ablation — additive δt embedding (ClimaX-style) vs adaLN-zero (CLAUDE.md §6, A4).
+# Pair with _base_ablation.yaml.
+# δt embedded once at entry: x = x + emb(δt), then plain pre-norm blocks with no conditioning.
+model:
+  init_args:
+    dt_cond: additive

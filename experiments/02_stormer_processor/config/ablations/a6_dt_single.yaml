@@ -1,0 +1,6 @@
+# A6 ablation — single fixed δt=24h (CLAUDE.md §6, ablation A6).
+# Pair with _base_ablation.yaml.
+# Tests the Stormer thesis: randomized δt improves skill at day ≥7 vs single-δt training.
+data:
+  init_args:
+    dt_hours: [24]

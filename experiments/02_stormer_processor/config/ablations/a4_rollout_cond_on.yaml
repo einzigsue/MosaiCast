@@ -1,0 +1,7 @@
+# A4 ablation — rollout-step conditioning on (CLAUDE.md §6, A4).
+# Pair with _base_ablation.yaml.
+# Adds a learned rollout-step embedding to the adaLN conditioning signal.
+# Hypothesis: may help at longer lead times but complicates "one model, many intervals".
+model:
+  init_args:
+    condition_on_rollout_step: true

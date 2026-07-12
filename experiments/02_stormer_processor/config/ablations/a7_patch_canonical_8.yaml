@@ -1,0 +1,10 @@
+# A7 ablation — canonical patch size p=8 (CLAUDE.md §6, ablation A7).
+# Pair with _base_ablation.yaml.
+# Larger canonical size → fewer tokens → coarser spatial resolution.
+# Ablates the canonical p sweep (2, 4, 8).
+model:
+  init_args:
+    patch_size: 8
+data:
+  init_args:
+    canonical: 8

@@ -1,0 +1,8 @@
+# A3 ablation — L2 loss + pressure weighting (CLAUDE.md §6, ablation A3).
+# Pair with _base_ablation.yaml.
+# Pressure weighting: w(p) = p / sum(p_levels), so upper-tropospheric levels
+# (500, 700, 850 hPa) get proportionally more weight than stratospheric (50, 250 hPa).
+model:
+  init_args:
+    loss_norm:         l2
+    pressure_weighted: true

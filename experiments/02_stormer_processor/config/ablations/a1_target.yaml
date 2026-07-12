@@ -1,0 +1,3 @@
+# A1: dynamics (residual) vs absolute-state target
+# Expect: dynamics wins, especially at short range (CLAUDE.md §6)
+target_mode: absolute  # override to "dynamics" in the baseline run

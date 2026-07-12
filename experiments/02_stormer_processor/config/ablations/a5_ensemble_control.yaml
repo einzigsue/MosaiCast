@@ -1,0 +1,8 @@
+# A5 control — averaged ensemble inference (CLAUDE.md §6, ablation A5).
+# Pair with _base_ablation.yaml.
+# Training is identical to control; ensemble/single-member split is at eval time.
+# This file just documents that the eval runner should use homogeneous_ensemble mode.
+# See eval.py --ensemble_mode homogeneous and scripts/run_ablation_eval.py.
+#
+# Metric: averaged RMSE ≤ single-member RMSE at day ≥7 (M5 acceptance test).
+# The central tension: averaging blurs extremes — measure thresholded RMSE + power spectra.

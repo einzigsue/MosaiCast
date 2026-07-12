@@ -1,0 +1,6 @@
+# A3 control — L2 loss, no pressure weighting (CLAUDE.md §6, ablation A3).
+# Pair with _base_ablation.yaml.  No override needed; explicit for documentation.
+model:
+  init_args:
+    loss_norm:         l2
+    pressure_weighted: false

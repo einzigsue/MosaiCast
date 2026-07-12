@@ -1,0 +1,5 @@
+# A1 control — dynamics (residual) target (CLAUDE.md §6, ablation A1).
+# Pair with _base_ablation.yaml.  No override needed; this file is explicit for documentation.
+model:
+  init_args:
+    target_mode: dynamics
