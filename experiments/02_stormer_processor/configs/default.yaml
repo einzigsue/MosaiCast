@@ -1,0 +1,36 @@
+_base_: "../../configs/base.yaml"
+
+tier: t2
+device: cuda
+precision: fp32
+
+model:
+  name: AuroraStormer
+  embed_dim: 256
+  patch_size: 4
+  # Stormer processor (read by models/__init__.py's build_model):
+  processor_depth: 10       # control: 8 @ width 256; matched: 10 @ width 768
+  processor_heads: 12       # control: 8
+  processor_head_dim: 64
+  processor_mlp_ratio: 4.0
+  processor_width: 768      # null → width 256.
+                            # 768 @ depth 10 / heads 12 parameter-matches
+                            # AuroraSmall's Swin backbone (~108M vs ~109M).
+
+data:
+  root: "/g/data/lm70/aurora/datasets/"
+  nc_filename: "aurora_{year}_1.40625deg.nc"
+  static_nc: "aurora_const_1.40625deg.nc"
+  resolution: "1.40625deg"
+  grid: [128, 256]
+  train_year_start: 2000.0
+  train_year_end: 2007.0
+  val_year_start: 2008.0
+  val_year_end: 2008.0
+  test_year_start: 2009.0
+  test_year_end: 2009.0
+
+training:
+  batch_size: 16
+  num_workers: 10
+  autocast: true
